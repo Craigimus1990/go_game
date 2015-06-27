@@ -1,0 +1,19 @@
+<%= table_for(@front_men) do |t| %>
+  <%= t.head do %>
+    <%= t.r do %>
+      <%= t.h('Id', :class => 'cell') %>
+      <%= t.h('Name', :class => 'cell') %>
+    <% end %>
+  <% end %>
+  <%= t.body do |front_man| %>
+    <%= t.r do %>
+      <%= t.d(h(front_man.id), :class => 'cell') %>
+      <%= t.d(h(front_man.name), :class => 'cell') %>
+    <% end %>
+    <%= t.r do %>
+      <%= t.d(content_tag(:canvas, "", :class => "piece white", :height => "100", :width => "100"), :class => 'cell') %>
+      <%= t.d(content_tag(:canvas, "", :class => "piece black", :height => "100", :width => "100"), :class => 'cell') %>
+    <% end %>
+
+  <% end %>
+<% end %>
