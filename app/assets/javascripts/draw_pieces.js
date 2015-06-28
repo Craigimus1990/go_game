@@ -95,16 +95,31 @@ function getNextPiece() {
 }
 
 function callAjax() {
+
+	$("table tr").each(function(row_num, row) {
+		$td_elem = $(row).find('td');
+		$td_elem.each(function(col_num, cell) {
+			if ($(cell).children().size() >= 1) {
+				if ($(cell).children().first().hasClass("white")) {
+					board[row_num][col_num] = -1;
+				} else {
+					board[row_num][col_num] = 1;
+				}
+			} else {
+				board[row_num][col_num]=0;
+			}
+		});
+	});
+
   return $.ajax({
-    url: "/game/validate?" + getBoardAsJson(),
-    context: document.body
+		type: "POST",
+    url: "/game/validate",
+    data: JSON.stringify({"board": board}),
+		contentType: "application/json; charset=utf-8",
+		dataType: "json"
   }).done( function( data ) {
-		
+
   });
-}
-
-function getBoardAsJson() {
-
 }
 
 $(document).ready(function() {
@@ -112,5 +127,12 @@ $(document).ready(function() {
 	$("table").on({"click":clickHandler}, {});
 	drawPieces();
 	color = "black";
+	
+	size = $("table tr").size();
+	console.log(size);
+	board = new Array(size);
+	for (i=0; i<size; i++) {
+		board[i] = new Array(size);
+	}
 });
 

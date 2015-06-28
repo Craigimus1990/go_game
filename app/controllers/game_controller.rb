@@ -8,4 +8,12 @@ class GameController < ApplicationController
 		end
 	end
 
+	def validate
+		board = params[:board]
+
+		board.each do |row| {
+
+		}
+	end
+
 end

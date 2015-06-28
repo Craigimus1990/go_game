@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  get 'game/validate' => 'game#validate'
+  post 'game/validate' => 'game#validate'
   root 'game#index'
 
   # Example of regular route:
