@@ -114,7 +114,7 @@ function callAjax() {
   return $.ajax({
 		type: "POST",
     url: "/game/validate",
-    data: JSON.stringify({"board": board}),
+    data: JSON.stringify({"board": board, "color": color}),
 		contentType: "application/json; charset=utf-8",
 		dataType: "json"
   }).done( function( data ) {
