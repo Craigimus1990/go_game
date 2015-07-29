@@ -110,11 +110,11 @@ function callAjax() {
 			}
 		});
 	});
-
+	console.log("calling ajax");
   return $.ajax({
 		type: "POST",
     url: "/game/validate",
-    data: JSON.stringify({"board": board, "color": color}),
+    data: JSON.stringify({"x": 1, "y": 0, "board": board, "color": color}),
 		contentType: "application/json; charset=utf-8",
 		dataType: "json"
   }).done( function( data ) {
