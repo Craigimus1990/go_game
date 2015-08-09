@@ -7,7 +7,7 @@ class GameEngine
   
   def check_new_move(x,y, color_placed, raw_board)
     original_board = Board.new(raw_board)
-    new_move = { "move" => [x,y],
+    new_move = { "move" => [x.to_i,y.to_i],
                   "color" => color_placed }
     
     board_after_move = place_piece(new_move, original_board)

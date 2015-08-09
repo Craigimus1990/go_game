@@ -6,6 +6,8 @@ class Board
   end
   
   def is_valid?(x,y)
+		x = x.to_i
+		y = y.to_i
     if x < 0 || y < 0
       return false
     end
@@ -18,10 +20,14 @@ class Board
   end
   
   def get_color(x, y)
+		x = x.to_i
+		y = y.to_i
     @board[y][x]
   end
   
   def set_color(x, y, value)
+		x = x.to_i
+		y = y.to_i
     @board[y][x] = value
   end
   

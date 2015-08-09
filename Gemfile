@@ -29,6 +29,7 @@ gem 'watu_table_builder', :require => 'table_builder'
 
 gem 'tzinfo-data'
 gem 'react-rails', github: 'reactjs/react-rails', branch: 'master'
+gem 'test-unit'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

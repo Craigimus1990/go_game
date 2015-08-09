@@ -10,7 +10,7 @@ class GameController < ApplicationController
 
 	def validate
 		board = params[:board]
-    offense_color = params[:color] == "black" ? -1 : 1
+    offense_color = params[:color]
     move = [params[:x], params[:y]]
     
 		puts "Board: " + board.to_s
@@ -20,8 +20,8 @@ class GameController < ApplicationController
     g = GameEngine.new
     new_board = g.check_new_move(*move, offense_color, board)
 
-    puts new_board.inspect
-    return new_board
+    puts "Result: #{new_board.board.inspect}"
+    render json: {:board => new_board.board }
   end
 	
 end

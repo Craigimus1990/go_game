@@ -1,18 +1,5 @@
 var turn = 1;
 
-var Test = React.createClass({
-  render: function() {
-    return (
-      <div className="comment">
-        <h2 className="commentAuthor">
-          "Test"
-        </h2>
-      </div>
-    );
-  }
-});
-
-
 var EmptyIcon = React.createClass({
 	render: function() {
 			var vertLineStyle = {
@@ -84,7 +71,7 @@ var Board = React.createClass({
 	},
 	setCell: function(x, y, val) {
 		this.state.board[y][x] = val;
-		this.callServer(x,y,board,color,turn);
+		this.callServer(x,y,this.state.board,val);
 
 		this.setState({ board: this.state.board });
 		
@@ -97,8 +84,8 @@ var Board = React.createClass({
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
 			}).done( function( data ) {
-				console.log(data);
-			});
+				this.setState({ board: data.board });
+			}.bind(this));
 	},
 
 	render: function() {
