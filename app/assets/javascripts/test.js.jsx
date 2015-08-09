@@ -84,7 +84,21 @@ var Board = React.createClass({
 	},
 	setCell: function(x, y, val) {
 		this.state.board[y][x] = val;
+		this.callServer(x,y,board,color,turn);
+
 		this.setState({ board: this.state.board });
+		
+	},
+	callServer: function(x,y,board,color) {
+		$.ajax({
+				type: "POST",
+				url: "/game/validate",
+				data: JSON.stringify({"x": x, "y": y, "board": board, "color": color}),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json"
+			}).done( function( data ) {
+				console.log(data);
+			});
 	},
 
 	render: function() {
