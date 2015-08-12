@@ -61,13 +61,8 @@ var WhitePiece = React.createClass({
 
 var Board = React.createClass({
 	getInitialState: function () {
-		var size = parseInt(this.props.size.toString());
-		var board = [];
-		for (i=0; i<size; i++) {
-			board.push(Array.apply(null, Array(size)).map(Number.prototype.valueOf,0));
-		}
 
-		return { board: board };
+		return { board: this.props.board };
 	},
 	setCell: function(x, y, val) {
 		this.state.board[y][x] = val;
@@ -85,6 +80,9 @@ var Board = React.createClass({
 				dataType: "json"
 			}).done( function( data ) {
 				this.setState({ board: data.board });
+				if (data.valid) {
+					turn = turn * -1;
+				}
 			}.bind(this));
 	},
 
@@ -130,7 +128,6 @@ var Cell = React.createClass({
 
 		if (contents == 0) {
 			this.props.setCell(x,y,turn);
-			turn = turn * -1;
 		}
 	},
 	render: function() {
@@ -164,8 +161,11 @@ var Cell = React.createClass({
 
 $(function() {
 	var testBoard = [[0,0,0],[0,-1,0],[0,0,1]];
+	x = $('#content');
+	board = x.attr('board');
+
   React.render(
-    <Board size="10" />,
+    <Board size={board} />,
     document.getElementById('content')
   );
 });

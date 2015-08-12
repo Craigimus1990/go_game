@@ -17,9 +17,10 @@ class GameEngine
     new_block = checker.calculate_block_from(new_move["move"])
     
     if checker.block_has_liberty?(new_block)
-      return board_after_captures #a valid move was made
+      return { :result => board_after_captures, :valid => true } 
     else
-      return raw_board #an invalid move was made
+			original_board.set_color(x.to_i, y.to_i, 0)
+      return { :result => original_board, :valid => false }
     end
 
   end
