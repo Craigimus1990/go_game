@@ -65,24 +65,21 @@ var Board = React.createClass({
 		return { board: this.props.board };
 	},
 	setCell: function(x, y, val) {
-		this.state.board[y][x] = val;
-		this.callServer(x,y,this.state.board,val);
+		this.callServer(x,y,1);
 
 		this.setState({ board: this.state.board });
 		
 	},
-	callServer: function(x,y,board,color) {
+	callServer: function(x,y,id) {
 		$.ajax({
 				type: "POST",
 				url: "/game/validate",
-				data: JSON.stringify({"x": x, "y": y, "board": board, "color": color}),
+				data: JSON.stringify({"x": x, "y": y, "id": id }),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
 			}).done( function( data ) {
-				this.setState({ board: data.board });
-				if (data.valid) {
-					turn = turn * -1;
-				}
+				this.setState({ board: data.board, id: data.id });
+				turn = data.turn;
 			}.bind(this));
 	},
 
@@ -160,12 +157,8 @@ var Cell = React.createClass({
 
 
 $(function() {
-	var testBoard = [[0,0,0],[0,-1,0],[0,0,1]];
-	x = $('#content');
-	board = x.attr('board');
-
   React.render(
-    <Board size={board} />,
+    <Board board={current_board} />,
     document.getElementById('content')
   );
 });

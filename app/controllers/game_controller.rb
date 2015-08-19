@@ -1,7 +1,7 @@
 class GameController < ApplicationController
 
   def show
-    gon.game = Game.find(params[:id])
+    @game = Game.find(params[:id])
   end
 
   def create
@@ -16,7 +16,7 @@ class GameController < ApplicationController
 
     @game = Game.new({ :board => board, :turn => 1 })
     if @game.save
-      redirect_to @game
+      redirect_to :action => 'show', :id => @game.id
     else
       render 'failed'
     end
@@ -31,12 +31,17 @@ class GameController < ApplicationController
 	end
 
 	def validate
-		board = params[:board]
-    offense_color = params[:color]
+		@game = Game.find(params[:id])
     move = [params[:x], params[:y]]
 
     g = GameEngine.new
-    result_check = g.check_new_move(*move, offense_color, board)
+    result_check = g.check_new_move(*move, @game.turn, @game.board)
+
+		if (result_check[:valid])
+			@game.board = result_check[:result].board
+			@game.turn = @game.turn * -1
+			@game.save
+		end
 
     render json: {:board => result_check[:result].board, :valid => result_check[:valid] }
   end
