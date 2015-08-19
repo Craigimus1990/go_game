@@ -43,7 +43,7 @@ class GameController < ApplicationController
 			@game.save
 		end
 
-    render json: {:board => result_check[:result].board, :valid => result_check[:valid] }
+    render json: {:board => result_check[:result].board, :valid => result_check[:valid], :id => params[:id] }
   end
 	
 end

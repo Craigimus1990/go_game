@@ -1,5 +1,6 @@
 <%= javascript_tag do %>
 	var current_board = <%= @game.board.to_json %>;
+	var current_board_id = <%= @game.id.to_json %>;
 <% end %>
 
-<div id="content" board=<%= @game.board %> ></div>
+<div id="content" board=<%= @game.board %> id=<%= @game.id %>></div>

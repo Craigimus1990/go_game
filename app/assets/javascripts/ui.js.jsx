@@ -62,12 +62,12 @@ var WhitePiece = React.createClass({
 var Board = React.createClass({
 	getInitialState: function () {
 
-		return { board: this.props.board };
+		return { board: this.props.board, id: this.props.id };
 	},
-	setCell: function(x, y, val) {
-		this.callServer(x,y,1);
-
-		this.setState({ board: this.state.board });
+	setCell: function(x, y) {
+		this.callServer(x,y,this.state.id);
+		
+		this.setState({ board: this.state.board, id: this.state.id });
 		
 	},
 	callServer: function(x,y,id) {
@@ -78,6 +78,7 @@ var Board = React.createClass({
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
 			}).done( function( data ) {
+				console.log(data);
 				this.setState({ board: data.board, id: data.id });
 				turn = data.turn;
 			}.bind(this));
@@ -124,7 +125,7 @@ var Cell = React.createClass({
 		var contents = this.props.contents.toString();
 
 		if (contents == 0) {
-			this.props.setCell(x,y,turn);
+			this.props.setCell(x,y);
 		}
 	},
 	render: function() {
@@ -158,7 +159,7 @@ var Cell = React.createClass({
 
 $(function() {
   React.render(
-    <Board board={current_board} />,
+    <Board board={current_board} id={current_board_id} />,
     document.getElementById('content')
   );
 });
