@@ -83,7 +83,24 @@ var Board = React.createClass({
 				turn = data.turn;
 			}.bind(this));
 	},
+	refresh: function() {
+		$.ajax({
+			type: "GET",
+			url: "/game/get_board",
+			data: "id=" + this.state.id,
+			dataType: "json",
+			success: function ( data ) {
+				this.setState({ board: data.board, id: data.id });
+				turn = data.turn;
+			}.bind(this)
+		});
 
+	},
+	componentDidMount: function() {
+		console.log("REFRESHING");
+		this.refresh();
+		setInterval(this.refresh, 2000);
+	},
 	render: function() {
 		var setCellFunc=this.setCell
 

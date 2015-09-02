@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'game/validate' => 'game#validate'
 	get 'game/create' => 'game#create'
 	get 'game/show' => 'game#show'
+	get 'game/get_board' => 'game#get_board'
   root 'game#index'
 
   # Example of regular route:

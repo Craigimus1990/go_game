@@ -4,6 +4,12 @@ class GameController < ApplicationController
     @game = Game.find(params[:id])
   end
 
+	def get_board
+		@game = Game.find(params[:id])
+
+    render json: {:board => @game.board, :turn => @game.turn, :id => params[:id] }
+	end
+
   def create
 		unless params[:size].nil?
 			@size = params[:size].to_i
@@ -33,7 +39,12 @@ class GameController < ApplicationController
 	def validate
 		@game = Game.find(params[:id])
     move = [params[:x], params[:y]]
-
+		
+		#b = Board.new(@game.board)
+		#unless (b.get_color(params[:x], params[:y]) == @game.turn)
+	#		render json: {:board => @game.board, :valid => false, :id => params[:id] }
+	#	end
+			
     g = GameEngine.new
     result_check = g.check_new_move(*move, @game.turn, @game.board)
 
