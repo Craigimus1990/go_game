@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150812193748) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "games", force: :cascade do |t|
     t.binary   "board"
     t.integer  "turn"
