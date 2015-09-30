@@ -2,6 +2,12 @@ class GameController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+
+		player = Player.find_by_id(session[:player_id])
+		@player_name = player.nil? ? "[NOT LOGGED IN]" : player.name
+
+		@black_player_name = @game.black_player.nil? ? "[OPEN]" : Player.find_by_id(@game.black_player.id).name
+		@white_player_name = @game.white_player.nil? ? "[OPEN]" : Player.find_by_id(@game.white_player.id).name
   end
 
 	def get_board
@@ -43,36 +49,42 @@ class GameController < ApplicationController
     end
 	end
 
-	def index
-		unless params[:size].nil?
-			@size = params[:size].to_i
-		else 
-			@size = 5
-		end
-	end
-
 	def validate
 		@game = Game.find(params[:id])
     move = [params[:x], params[:y]]
 	
 		id = session[:player_id]
 
-		if @game.turn == 1 and id != @game.black_player.id
-			render json: { :board => @game.board, :valid => false, :id => params[:id] }
-			puts "It is not your turn!!!"
-			return
+		if @game.turn == 1 and @game.black_player.nil?
+			@game.black_player = Player.find_by_id(session[:player_id])
+			@game.save
+		elsif @game.turn == -1 and @game.white_player.nil?
+			@game.white_player = Player.find_by_id(session[:player_id])
+			@game.save
 		end
-			
-    g = GameEngine.new
-    result_check = g.check_new_move(*move, @game.turn, @game.board)
 
-		if (result_check[:valid])
-			@game.board = result_check[:result].board
+		result = Hash.new
+		if @game.turn == 1 and id != @game.black_player.id
+			player_name = Player.find_by_id(session[:player_id]).name
+			result[:msg] = "#{player_name}, it's not your turn!"
+			result[:valid] = false
+			result[:result] = @game
+		elsif @game.turn == -1 and id != @game.white_player.id
+			player_name = Player.find_by_id(session[:player_id]).name
+			result[:msg] = "#{player_name}, it's not your turn!"
+			result[:valid] = false
+			result[:result] = @game
+		else
+    	g = GameEngine.new
+    	result = g.check_new_move(*move, @game.turn, @game.board)
+		end
+
+		if (result[:valid])
+			@game.board = result[:result].board
 			@game.turn = @game.turn * -1
 			@game.save
 		end
 
-    render json: {:board => result_check[:result].board, :valid => result_check[:valid], :id => params[:id] }
+    render json: {:board => result[:result].board, :valid => result[:valid], :id => params[:id], :msg => result[:msg].to_s }
   end
-	
 end

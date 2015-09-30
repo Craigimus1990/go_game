@@ -80,6 +80,9 @@ var Board = React.createClass({
 			}).done( function( data ) {
 				console.log(data);
 				this.setState({ board: data.board, id: data.id });
+				if (data.msg) {
+					alert(data.msg);
+				}
 				turn = data.turn;
 			}.bind(this));
 	},
@@ -99,7 +102,7 @@ var Board = React.createClass({
 	componentDidMount: function() {
 		console.log("REFRESHING");
 		this.refresh();
-		setInterval(this.refresh, 2000);
+		setInterval(this.refresh, 20000);
 	},
 	render: function() {
 		var setCellFunc=this.setCell
