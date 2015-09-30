@@ -102,7 +102,7 @@ var Board = React.createClass({
 	componentDidMount: function() {
 		console.log("REFRESHING");
 		this.refresh();
-		setInterval(this.refresh, 20000);
+		setInterval(this.refresh, 2000);
 	},
 	render: function() {
 		var setCellFunc=this.setCell
