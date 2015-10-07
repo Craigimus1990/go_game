@@ -8,6 +8,10 @@ Rails.application.routes.draw do
 	post 'game/create' => 'game#start_game'
 	get 'game/show' => 'game#show'
 	get 'game/get_board' => 'game#get_board'
+	get 'game/select_game' => 'game#select_game'
+	post 'player/new' => 'player#new'
+	get 'player/new' => 'player#new'
+	get 'player/logon' => 'player#logon'
 	post 'player/logon' => 'player#logon'
   root 'player#logon'
 

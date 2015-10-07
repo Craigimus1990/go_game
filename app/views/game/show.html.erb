@@ -1,3 +1,7 @@
+
+<!-- Load all scripts, including the board -->
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
 <%= javascript_tag do %>
 	var current_board = <%= @game.board.to_json %>;
 	var current_board_id = <%= @game.id.to_json %>;

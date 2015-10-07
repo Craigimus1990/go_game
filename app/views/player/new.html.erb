@@ -1,0 +1,10 @@
+<% if flash[:notice] %>
+	<div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
+<%= form_tag do %>
+	<%= label_tag(:username, "Please create a username:") %>
+	<%= text_field_tag(:username) %>
+	<br>
+	<%= submit_tag("Submit") %>
+<% end %>

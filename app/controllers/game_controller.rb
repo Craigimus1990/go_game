@@ -31,11 +31,6 @@ class GameController < ApplicationController
     end
 
 		player = Player.find_by_name(params[:username])
-		
-		if player.nil?
-			player = Player.create({ :name => params[:username] })
-		end
-
 		session[:player_id] = player.id
 
     board = Array.new(@size) { Array.new(@size) }
@@ -47,6 +42,13 @@ class GameController < ApplicationController
     else
       render 'failed'
     end
+	end
+
+	def select_game
+		@current_player = Player.find_by_id(session[:player_id])
+		@current_games = (Game.where(:black_player_id => session[:player_id]) + 
+											Game.where(:white_player_id => session[:player_id])).uniq
+		@open_games = Game.where(:white_player_id => nil)
 	end
 
 	def validate
