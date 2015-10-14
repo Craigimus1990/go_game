@@ -2,9 +2,9 @@
 	<div class="notice"><%= flash[:notice] %></div>
 <% end %>
 
-<%= form_tag do %>
-	<%= label_tag(:username, "Please create a username:") %>
-	<%= text_field_tag(:username) %>
+<%= form_for @player, url: "create" do |p| %>
+	<%= p.label :name %>
+	<%= p.text_field :name %>
 	<br>
-	<%= submit_tag("Submit") %>
+	<%= p.submit "Create" %>
 <% end %>

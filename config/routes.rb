@@ -9,10 +9,12 @@ Rails.application.routes.draw do
 	get 'game/show' => 'game#show'
 	get 'game/get_board' => 'game#get_board'
 	get 'game/select_game' => 'game#select_game'
-	post 'player/new' => 'player#new'
+	post 'player/create' => 'player#create'
 	get 'player/new' => 'player#new'
+
 	get 'player/logon' => 'player#logon'
 	post 'player/logon' => 'player#logon'
+	get 'player/logout' => 'player#logout'
   root 'player#logon'
 
   # Example of regular route:

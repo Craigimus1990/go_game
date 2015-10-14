@@ -1,23 +1,36 @@
 class PlayerController < ApplicationController
 	def new
-		player = Player.find_by_name(params[:username])
+		@player = Player.new
+	end
 
-		if player.nil?
-			player = Player.create({ :name => params[:username] })
-			session[:player_id] = player.id 
+	def create
+		@player = Player.new({:name => params[:player][:name]})
+
+		if @player.save
+			session[:player_id] = @player.id
+			redirect_to game_select_game_path
 		else
-			flash.notice = "Username #{params[:username]} already exists!"
+			flash.notice = "Was unable to save player!!"
+			render "new"
 		end
+		
+	end
+
+	def show
+
 	end
 
 	def logon
 		player = Player.find_by_id(params[:player_id])
-		flash.notice = ""
 
 		unless player.nil?
 			session[:player_id] = player.id 
-			flash.notice = "Currently logged in as #{player.name}"
+			redirect_to game_select_game_path
 		end
+	end
+
+	def logout
+		session[:player_id] = nil
 	end
 
 end

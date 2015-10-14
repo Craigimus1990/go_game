@@ -1,5 +1,5 @@
 <div class="banner">
-	<%= "Hello, #{@current_player.name}!" %>
+	<%= "Hello, #{current_player.name}!" %>
 </div>
 
 <div id="games_box">
@@ -13,6 +13,10 @@
 				<span class="white_player_id">White Player: <%= game.white_player_id == nil ? "[OPEN]" : Player.find_by_id(game.white_player_id).name %></span>
 				<span class="link_to_game"><%= link_to "Open Game", action: "show", id: game.id  %></span>
 			</div>
+		<% end %>
+
+		<% if @current_games.empty? %>
+			<div>None Available</div>
 		<% end %>
 	</div>
 
@@ -28,6 +32,12 @@
 				<span class="link_to_game"><%= link_to "Open Game", action: "show", id: game.id  %></span>
 			</div>
 		<% end %>
+
+		<% if @open_games.empty? %>
+			<div>None Available</div>
+		<% end %>
 	</div>
-			
+		
+	<br>	
+	<%= button_to "New Game", game_create_path, :method => "get" %>
 </div>

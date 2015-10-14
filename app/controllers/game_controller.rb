@@ -3,8 +3,7 @@ class GameController < ApplicationController
   def show
     @game = Game.find(params[:id])
 
-		player = Player.find_by_id(session[:player_id])
-		@player_name = player.nil? ? "[NOT LOGGED IN]" : player.name
+		@player_name = current_player.nil? ? "[NOT LOGGED IN]" : current_player.name
 
 		@black_player_name = @game.black_player.nil? ? "[OPEN]" : Player.find_by_id(@game.black_player.id).name
 		@white_player_name = @game.white_player.nil? ? "[OPEN]" : Player.find_by_id(@game.white_player.id).name
@@ -17,7 +16,9 @@ class GameController < ApplicationController
 	end
 
   def create
-		unless session[:player_id].nil?
+		if current_player.nil?
+			redirect_to 'player/logon'
+		else
 			player = Player.find_by_id(session[:player_id])
 			@default = player.name
 		end
@@ -30,13 +31,10 @@ class GameController < ApplicationController
       @size = 9
     end
 
-		player = Player.find_by_name(params[:username])
-		session[:player_id] = player.id
-
     board = Array.new(@size) { Array.new(@size) }
     board = board.map { |row| row.map { |col| col=0 }}
 
-    @game = Game.new({ :board => board, :turn => 1, :black_player => player})
+    @game = Game.new({ :board => board, :turn => 1, :black_player => current_player})
     if @game.save
       redirect_to :action => 'show', :id => @game.id
     else
@@ -45,10 +43,13 @@ class GameController < ApplicationController
 	end
 
 	def select_game
-		@current_player = Player.find_by_id(session[:player_id])
-		@current_games = (Game.where(:black_player_id => session[:player_id]) + 
-											Game.where(:white_player_id => session[:player_id])).uniq
-		@open_games = Game.where(:white_player_id => nil)
+		if (current_player.nil?)
+			redirect_to 'player/logon'
+		else
+			@current_games = (Game.where(:black_player_id => session[:player_id]) + 
+												Game.where(:white_player_id => session[:player_id])).uniq.to_a
+			@open_games = Game.where(:white_player_id => nil).to_a
+		end
 	end
 
 	def validate
