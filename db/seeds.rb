@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+p1 = Player.create({ :name => "Player_1" })
+p2 = Player.create({ :name => "Player_2" })
+
+Game.create({ :board => [], :turn => 1, :black_player => p1, :white_player => p2})
+
