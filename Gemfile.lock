@@ -68,6 +68,7 @@ GEM
     coffee-script-source (1.8.0)
     columnize (0.9.0)
     connection_pool (2.2.0)
+    database_cleaner (1.5.1)
     debase (0.1.4)
       debase-ruby_core_source
     debase-ruby_core_source (0.7.9)
@@ -195,6 +196,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   coffee-script-source (= 1.8.0)
+  database_cleaner
   debase
   gon
   jbuilder (~> 2.0)
